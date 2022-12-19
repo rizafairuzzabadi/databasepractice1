@@ -1,0 +1,7 @@
+Wed Dec 7th 2022: added init_database.py file, added connection to sqlite and create tables commands lists
+Thu Dec 8th 2022: completed table creation commands in init_database.py, added insert commands for all tables. created and initalised tables in the database.
+Sun Dec 11th 2022: added server.html, added index.html template for "/" route with basic html structure and css styling
+Wed Dec 14th 2022: added player.html template with dropdown menu for selecting players, added queries for Master, Awards, Teams tables, added awards table and goalies table with conditional and dynamic rendering rendering
+Thu Dec 15th 2022: Add player button, add awards form, Scoring table added with addition and delete, with all the relevant queries.
+Sun Dec 18th 2022: Added auto-increment IDs for awards and scorings, UPDATE functionality for Scoring table, fixed add scored problem and introducing ordering, added Team names to scoring table using JOIN. added Constraints on Scoring Table.
+Mon Dec 18th 2022: Created ER Diagram for database tables.

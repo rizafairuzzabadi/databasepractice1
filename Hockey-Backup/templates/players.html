@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Player Info</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/players.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+    <script>
+        [...document.getElementsByTagName("form")].forEach(function(form) {
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+            });
+        });
+        $(document).ready(function () {
+        $('select').selectize({
+            sortField: 'text'
+        });
+         });
+
+        function enableAddAward() {
+            if(document.getElementById("no-awards-table")) document.getElementById("no-awards-table").style.display = null;
+            document.getElementById("addAwardFormRow").style.display = null;
+            document.getElementById("submitAddAwardButton").style.display = null;
+            document.getElementById("addAwardButton").style.display = "none";
+            document.getElementById("cancelAddAwardButton").style.display = null;
+        }
+
+        function cancelAddAward() {
+            if(document.getElementById("no-awards-table")) document.getElementById("no-awards-table").style.display = "none";
+            document.getElementById("addAwardFormRow").style.display = "none";
+            document.getElementById("submitAddAwardButton").style.display = "none";
+            document.getElementById("addAwardButton").style.display = null;
+            document.getElementById("cancelAddAwardButton").style.display = "none";
+        }
+
+        function enableAddGoalie() {
+            if(document.getElementById("no-goalies-table")) document.getElementById("no-goalies-table").style.display = null;
+            document.getElementById("addGoalieFormRow").style.display = null;
+            document.getElementById("submitAddGoalieButton").style.display = null;
+            document.getElementById("addGoalieButton").style.display = "none";
+            document.getElementById("cancelAddGoalieButton").style.display = null;
+        }
+
+        function cancelAddGoalie() {
+            if(document.getElementById("no-goalies-table")) document.getElementById("no-goalies-table").style.display = "none";
+            document.getElementById("addGoalieFormRow").style.display = "none";
+            document.getElementById("submitAddGoalieButton").style.display = "none";
+            document.getElementById("addGoalieButton").style.display = null;
+            document.getElementById("cancelAddGoalieButton").style.display = "none";
+        }
+        function enableAddShootout(){
+            if(document.getElementById("no-shootouts-table")) document.getElementById("no-shootouts-table").style.display = null;
+            document.getElementById("addShootoutFormRow").style.display = null;
+            document.getElementById("submitAddShootoutButton").style.display = null;
+            document.getElementById("addShootoutButton").style.display = "none";
+            document.getElementById("cancelAddShootoutButton").style.display = null;
+        }
+        function cancelAddShootout(){
+            if(document.getElementById("no-shootouts-table")) document.getElementById("no-shootouts-table").style.display = "none";
+            document.getElementById("addShootoutFormRow").style.display = "none";
+            document.getElementById("submitAddShootoutButton").style.display = "none";
+            document.getElementById("addShootoutButton").style.display = null;
+            document.getElementById("cancelAddShootoutButton").style.display = "none";
+        }
+        function enableAddScoring() {
+            if(document.getElementById("no-scorings-table")) document.getElementById("no-scorings-table").style.display = null;
+            document.getElementById("addScoringFormRow").style.display = null;
+            document.getElementById("submitAddScoringButton").style.display = null;
+            document.getElementById("addScoringButton").style.display = "none";
+            document.getElementById("cancelAddScoringButton").style.display = null;
+        }
+
+        function cancelAddScoring() {
+            if(document.getElementById("no-scorings-table")) document.getElementById("no-scorings-table").style.display = "none";
+            document.getElementById("addScoringFormRow").style.display = "none";
+            document.getElementById("submitAddScoringButton").style.display = "none";
+            document.getElementById("addScoringButton").style.display = null;
+            document.getElementById("cancelAddScoringButton").style.display = "none";
+        }
+        function enableeditGoalie() {
+            document.querySelectorAll(".editGoalieForm").style.display = 'null';
+            document.getElementById("editGoalieForm").style.display = null;
+            document.getElementById("submitEditGoalieButton").style.display = null;
+            document.getElementById("editGoalieButton").style.display = "none";
+            document.getElementById("cancelEditGoalieButton").style.display = null;
+        }
+        function canceleditGoalie() {
+            document.getElementById("editGoalieForm").style.display = "none";
+            document.getElementById("submitEditGoalieButton").style.display = "none";
+            document.getElementById("editGoalieButton").style.display = null;
+            document.getElementById("cancelEditGoalieButton").style.display = "none";
+        }
+    </script>
+
+
+    <nav class="nav">
+        <h2 class ="mt-1">The Hockey Archive</h2>
+        <a href="/">Home</a>
+        <a class="active" href="/players">Players</a>
+        <a href="/teams">Teams</a>
+        <a href="/coaches">Coaches</a>
+        <a href="/games">Games</a>
+        <a href="/stats">Stats</a>
+    </nav>
+</head>
+
+<body class=".bg-transparent" style="background-image: url(../static/css/src/bg-min.jpg) !important; background-position: right top; background-size:cover;">
+    <div id="top-container">
+        <h1>Players information:</h1>
+
+    <div id="dropdown-container">
+        <p>Select a player: </p>
+        <select onchange="this.options[this.selectedIndex].value && (window.location.href = '/player/' + this.options[this.selectedIndex].value)" style="width: 400px;" id="dropdownPlayers" placeholder="Select a Player">
+            <option value="">Select a Player</option>
+            {% for player in players %}
+            <option value="{{ player[0] }}">{{ player[1] }} {{ player[2] }}</option>
+            {% endfor %}
+        </select>
+        <a type="button" class="btn btn-dark ms-1" id="addPlayerButton" href="/addplayer">Add a player</a>
+    </div>
+
+    {% if player %}
+
+    <div id="details-container">
+
+        <div id="player-info">
+            <h2>Personal Info:</h2>
+            <p>Player Name: <span id="player-name">{{player[3]}} {{player[4]}}</span></p>
+            <p>Player Position: <span id="player-position">{{player[18]}}</span></p>
+            <p>Player Height: <span id="player-height">{{player[8]}}</span></p>
+            <p>Player Weight: <span id="player-weight">{{player[9]}}</span></p>
+            <p>Player Birthdate: <span id="player-birthdate">{{player[21]}}/{{player[20]}}/{{player[19]}}</span></p>
+            <p>Player Birthplace: <span id="player-birthplace">{{player[22]}}</span></p>
+
+        </div>
+
+
+        <div id="awards">
+            <h2>Awards Earned:</h2>
+            {% if awards %}
+            <table>
+                <tr>
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        League
+                    </th>
+                    <th>
+                        Award
+                    </th>
+
+                    <th>
+
+                    </th>
+
+                </tr>
+
+                {% for award in awards %}
+
+                <tr>
+                    <td>
+                        {{ award[1] }}
+                    </td>
+                    <td>
+                        {{ award[2] }}
+                    </td>
+
+                    <td>
+                        {{ award[3] }}
+                    </td>
+
+                    <td>
+                        <a href="./{{ player[0] }}/deleteaward?awardsPlayersId={{ award[0] }}">Delete</a>
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+                <form action="./{{ player[0] }}/addaward" method="post">
+                <tr id="addAwardFormRow" style="display:none;">
+                    <td>
+                        <input type="number" name="awardYear" id="addAwardYear" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="awardLeague" id="addAwardLeague" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="awardName" id="addAwardName" class="insert-table-input">
+                    </td>
+                </tr>
+                <input id="submitAddAwardButton" style="display:none;" type="submit" value="submit">
+                </form>
+            </table>
+            <button id="cancelAddAwardButton" style="display:none;" onclick="cancelAddAward()">Cancel</button>
+            <button id="addAwardButton" style="display: block;" onclick="enableAddAward()">Add award</button>
+
+            {% else %}
+            <p>This player has not achieve any awards.</p>
+            <table id="no-awards-table" style="display:none;">
+                <tr>
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        League
+                    </th>
+                    <th>
+                        Award
+                    </th>
+                </tr>
+                <form action="./{{ player[0] }}/addaward" method="post">
+                <tr id="addAwardFormRow" style="display:none;">
+                    <td>
+                        <input type="number" name="awardYear" id="addAwardYear" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="awardLeague" id="addAwardLeague" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="awardName" id="addAwardName" class="insert-table-input">
+                    </td>
+
+                </tr>
+            </table>
+            <input id="submitAddAwardButton" style="display:none;" type="submit" value="submit" />
+            </form>
+            <button id="cancelAddAwardButton" style="display:none;" onclick="cancelAddAward()">Cancel</button>
+            <button id="addAwardButton" style="display: block;" onclick="enableAddAward()">Add award</button>
+
+            {% endif %}
+
+        </div>
+
+        <div id="scoring">
+            <h2>Goals Scored:</h2>
+            {% if scorings %}
+            <table>
+                <tr>
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        Team
+                    </th>
+                    <th>
+                        League
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                    <th>
+                        Goals
+                    </th>
+                    <th>
+                        Assists
+                    </th>
+                    <th>
+                        Total Points
+                    </th>
+
+                    <th>
+
+                    </th>
+                </tr>
+
+                {% for scoring in scorings %}
+
+                <tr>
+                    <td>
+                        {{ scoring[1] }}
+                    </td>
+                    <td>
+                        {{ scoring[8] }}
+                    </td>
+                    <td>
+                        {{ scoring[3] }}
+                    </td>
+                    <td>
+                        {{ scoring[4] }}
+                    </td>
+                    <td>
+                        {{ scoring[5] }}
+                        <a href="./{{player[0]}}/updatescoring?scoringId={{scoring[0]}}&type=increment&column=G">+</a>
+                        <a href="./{{player[0]}}/updatescoring?scoringId={{scoring[0]}}&type=decrement&column=G">-</a>
+                    </td>
+
+                    <td>
+                        {{ scoring[6] }}
+                        <a href="./{{player[0]}}/updatescoring?scoringId={{scoring[0]}}&type=increment&column=A">+</a>
+                        <a href="./{{player[0]}}/updatescoring?scoringId={{scoring[0]}}&type=decrement&column=A">-</a>
+
+                    </td>
+
+                    <td>
+                        {{ scoring[7] }}
+                    </td>
+
+                    <td>
+                        <a href="./{{ player[0] }}/deletescoring?scoringId={{ scoring[0] }}">Delete</a>
+                    </td>
+                    
+                </tr>
+
+                {% endfor %}
+                <form action="./{{ player[0] }}/addscoring" method="POST">
+                <tr id="addScoringFormRow" style="display:none;">
+                    <td>
+                        <input type="number" name="ScoringYear" id="addScoringYear" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <select name="ScoringTeam" id="addScoringTeam">
+                            {% for team in teams %}
+                            <option value="{{ team[0] }}">{{ team[1] }} ({{team[2]}})</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="ScoringLeague" id="addScoringLeague" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringPosition" id="addScoringPosition" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringGoals" id="addScoringGoals" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringAssists" id="addScoringAssists" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringPoints" id="addScoringPoints" class="insert-table-input">
+                    </td>
+                </tr>
+            </table>
+            <input id="submitAddScoringButton" style="display:none;" type="submit" value="submit">
+            </form>
+            <button id="cancelAddScoringButton" style="display:none;" onclick="cancelAddScoring()">Cancel</button>
+            <button id="addScoringButton" style="display: block;" onclick="enableAddScoring()">Add Scoring</button>
+
+
+            {% else %}
+            <p>This player has not scored any goals.</p>
+
+            <table id="no-scorings-table" style="display: none;">
+                <tr>
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        Team
+                    </th>
+                    <th>
+                        League
+                    </th>
+                    <th>
+                        Position
+                    </th>
+                    <th>
+                        Goals
+                    </th>
+                    <th>
+                        Assists
+                    </th>
+                    <th>
+                        Points
+                    </th>
+                </tr>
+                <form action="./{{ player[0] }}/addscoring" method="POST">
+                <tr id="addScoringFormRow" style="display:none;">
+                    <td>
+                        <input type="number" name="ScoringYear" id="addScoringYear" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringTeam" id="addScoringTeam" class="insert-table-input">
+                    </td>
+                    <td>
+                        <input type="text" name="ScoringLeague" id="addScoringLeague" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringPosition" id="addScoringPosition" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringGoals" id="addScoringGoals" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringAssists" id="addScoringAssists" class="insert-table-input">
+                    </td>
+
+                    <td>
+                        <input type="text" name="ScoringPoints" id="addScoringPoints" class="insert-table-input">
+                    </td>
+                </tr>
+            </table>
+            <button id="submitAddScoringButton" style="display:none;" type="submit">Submit</button>
+            </form>
+            <button id="cancelAddScoringButton" style="display:none;" onclick="cancelAddScoring()">Cancel</button>
+            <button id="addScoringButton" style="display: block;" onclick="enableAddScoring()">Add Scoring</button>
+
+            {% endif %}
+
+
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <div id="goalies">
+                    <h2>Goaltending Statistics:</h2>
+                    {% if goalies %}
+                    <table>
+                        <tr>
+                            <th>
+                                Year
+                            </th>
+                            <th>
+                                Team
+                            </th>
+                            <th>
+                                League
+                            </th>
+                            <th>
+                                Minute
+                            </th>
+                            <th>
+                                Wins / Losses / Ties
+                            </th>
+                            <th>
+                                Stint
+                            </th>
+                        </tr>
+        
+                        {% for goal in goalies %}
+        
+                        <tr>
+                            <td>
+                                {{ goal[2] }}
+                            </td>
+                            <td>
+                                {{ goalies_team[0] }}
+                            </td>
+                            <td>
+                                {{ goal[5] }}
+                            </td>
+                            <td>
+                                {{ goal[7] }}
+                            </td>
+                            <td>
+                                {{ goal[8] }} / {{ goal[9] }} / {{ goal[10] }}
+                            </td>
+                            <td>
+                                {{ goal[13] }}
+                            </td>
+                            <td>
+                                <a type="button" class="btn btn-dark" href="./{{ player[0] }}/deletegoalie?GoaliesId={{ goal[0] }}">Delete</a>
+                                <button id="editgoalieButton" type="button" class="btn btn-light" onclick="enableeditGoalie()">Edit</button>
+                            </td>
+
+                        </tr>
+                        <!-- <tr class="editGoalieForm" style="display:none" > -->
+                        <tr class="editGoalieForm" class="mt-0 pt-0">
+                            <form action="./{{ player[0] }}/editgoalie?GoaliesId={{ goal[0] }}" method="POST"> 
+                            <td>
+                                <input type="number" name="GoalieYear" id="editGoalieYear" class="insert-table-input" value="{{ goal[2] }}">
+                            </td>
+                            <td>
+                                <select name="GoalieTeam" id="editGoalieTeam">
+                                    {% for team in teams %}
+                                    <option value="{{ team[0] }}">{{ team[1] }} ({{team[2]}})</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <select name="GoalieLeague" id="editGoalieLeague">
+                                    <option value="NHL">NHL</option>
+                                    <option value="AHL">AHL</option>
+                                    <option value="WHL">WHL</option>
+                                    <option value="OHL">OHL</option>
+                                    <option value="QMJHL">QMJHL</option>
+                                    <option value="NCAA">NCAA</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="GoalieMinutes" id="editGoalieMinutes" class="insert-table-input" value="Minute">
+                            </td>
+                            <td>
+                                <input type="text" name="GoalieWins" id="editGoalieWins" class="insert-table-input" value="Win">
+                                <input type="text" name="GoalieLosses" id="editGoalieLosses" class="insert-table-input" value="Losses">
+                                <input type="text" name="GoalieTies" id="editGoalieTies" class="insert-table-input" value="Ties">
+                            </td>
+                            <td>
+                                <input type="text" name="GoalieStint" id="editGoalieStint" class="insert-table-input" value="Stint">
+                            </td>
+                            <td>
+                                <!-- <button id="submitEditGoalieButton" style="display:none;" type="submit">Submit</button> -->
+                                <button type="button" class="btn btn-light" id="submitEditGoalieButton" type="submit">Submit</button>
+                            </td>
+                            <td>
+                                <button id="cancelEditGoalieButton" style="display:none;" onclick="cancelEditGoalie()">Cancel</button>
+                            </td>
+                            </form>
+
+                        </tr>
+                        {% endfor %}
+                        <form action="./{{ player[0] }}/addgoalie" method="POST">
+                        <tr id="addGoalieFormRow" style="display:none;">
+                            <td>
+                                <input type="number" name="GoalieYear" id="addGoalieYear" class="insert-table-input">
+                            </td>
+                            <td>
+                                <select name="GoalieTeam" id="addGoalieTeam">
+                                    {% for team in teams %}
+                                    <option value="{{ team[0] }}">{{ team[1] }} ({{team[2]}})</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="GoalieLeague" id="addGoalieLeague" class="insert-table-input">
+                            </td>
+        
+                            <td>
+                                <input type="text" name="GoalieMinutes" id="addGoalieMinutes" class="insert-table-input">
+                            </td>
+                            <td>
+                                <input type="text" name="GoalieWinsLoseTie" id="addGoalieWinsLoseTie" class="insert-table-input">
+                            </td>
+                        </tr>
+                    </table>
+                    <input id="submitAddGoalieButton" style="display:none;" type="submit" value="submit">
+                    </form>
+                    <button id="cancelAddGoalieButton" style="display:none;" onclick="cancelAddGoalie()">Cancel</button>
+                    <button id="addGoalieButton" type="button" class="btn btn-dark" onclick="enableAddGoalie()">Add Goalie</button>
+        
+        
+                    {% else %}
+                    <p>This player has not saved any goals.</p>
+        
+                    <table id="no-goalies-table" style="display: none;">
+                        <tr>
+                            <th>
+                                Year
+                            </th>
+                            <th>
+                                Team
+                            </th>
+                            <th>
+                                League
+                            </th>
+                            <th>
+                                Minute
+                            </th>
+                            <th>
+                                Wins / Losses / Ties
+                            </th>
+                            <th>
+                                Stint
+                            </th>
+                        </tr>
+                        <form action="./{{ player[0] }}/addgoalie" method="POST">
+                            <tr id="addGoalieFormRow" style="display:none;">
+                                <td>
+                                    <input type="number" name="GoalieYear" id="addGoalieYear" class="insert-table-input">
+                                </td>
+                                <td>
+                                    <select name="GoalieTeam" id="addGoalieTeam">
+                                        {% for team in teams %}
+                                        <option value="{{ team[0] }}">{{ team[1] }} ({{team[2]}})</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="GoalieLeague" id="addGoalieLeague" class="insert-table-input">
+                                </td>
+            
+                                <td>
+                                    <input type="text" name="GoalieMinutes" id="addGoalieMinutes" class="insert-table-input">
+                                </td>
+                                <td>
+                                    <input type="text" name="GoalieWinsLoseTie" id="addGoalieWinsLoseTie" class="insert-table-input">
+                                </td>
+                            </tr>
+                    </table>
+                        <button id="submitAddGoalieButton" style="display:none;" type="submit">submit</button>
+                    </form>
+                    <button id="cancelAddGoalieButton" style="display:none;" onclick="cancelAddGoalie()">Cancel</button>
+                    <button id="addGoalieButton"type="button" class="btn btn-dark" onclick="enableAddGoalie()">Add Goalie</button>
+        
+                    {% endif %}
+                </div>
+              </div>
+              <div class="col">
+                <h2>Goaltending Shootouts</h2>
+                {% if shootouts %}
+                <table>
+                    <tr>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            Team
+                        </th>
+
+                        <th>
+                            Wins/Loses
+                        </th>
+                        <th>
+                            Shots Against
+                        </th>
+                        <th>
+                            Goals Against
+                        </th>
+                        <th>
+                            Stint
+                        </th>
+                    </tr>
+    
+                    {% for shootout in shootouts %}
+    
+                    <tr>
+                        <td>
+                            {{ shootout[1] }}
+                        </td>
+                        <td>
+                            {{ shootouts_team[0] }}
+                        </td>
+
+                        <td> 
+                            {{ shootout[4] }} / {{ shootout[5] }}
+                        </td>
+                        <td>
+                            {{ shootout[6] }}
+                        </td>
+                        <td>
+                            {{ shootout[7] }}
+                        </td>
+                        <td>
+                            {{ shootout[2] }}
+                        </td>
+                        <td>
+                            <a type="button" class="btn btn-dark" href="./{{ player[0] }}/deleteshootout?ShootoutId={{ shootout[8] }}">Delete</a>
+                            <button type="button" class="btn btn-light" onclick="enableEditShootout()">Edit</button>
+                        </td>
+
+                    </tr>
+                    <tr id="editShootoutFormRow">
+                        <form action="./{{ player[0] }}/editshootout?ShootoutId={{ shootout[8] }}" method="POST">
+                            <td>
+                                <input type="number" name="ShootoutYear" id="editShootoutYear" class="insert-table-input" value="{{ shootout[1] }}">
+                            </td>
+                            <td>
+                                <select name="ShootoutTeam" id="editShootoutTeam">
+                                    {% for team in teams %}
+                                    <option value="{{ team[0] }}">{{ team[1] }} ({{team[2]}})</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="ShootoutWins" id="editShootoutWins" class="insert-table-input" value="{{ shootout[4] }} / {{ shootout[5] }}">
+                                <input type="text" name="ShootoutLosses" id="editShootoutLosses" class="insert-table-input" value="{{ shootout[4] }} / {{ shootout[5] }}">
+                            </td>
+                            <td>
+                                <input type="text" name="ShootoutShotsAgainst" id="editShootoutShotsAgainst" class="insert-table-input" value="{{ shootout[6] }}">
+                            </td>
+                            <td>
+                                <input type="text" name="ShootoutGoalsAgainst" id="editShootoutGoalsAgainst" class="insert-table-input" value="{{ shootout[7] }}">
+                            </td>
+                            <td>
+                                <input type="text" name="ShootoutStint" id="editShootoutStint" class="insert-table-input" value="{{ shootout[2] }}">
+                            </td>
+                            <td>
+                                <input type="hidden" name="ShootoutId" id="editShootoutId" value="{{ shootout[8] }}">
+                                <button type="submit" class="btn btn-dark">Submit</button>
+                            </td>
+                        </form>
+                        
+                    {% endfor %}
+                    <form action="./{{ player[0] }}/addshootout" method="POST">
+                        <tr id="addShootoutFormRow" style="display:none;">
+                            <td>
+                                <input type="number" name="ShootoutYear" id="addShootoutYear" class="insert-table-input">
+                            </td>
+                            <td>
+                            <select name="ShootoutTeam" id="addShootoutTeam">
+                                    {% for team in teams %}
+                                    <option value="{{ team[0] }}">{{ team[1] }} ({{team[2]}})</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="ShootoutWinsLose" id="addShootoutWinsLose" class="insert-table-input">
+                            </td>
+        
+                            <td>
+                                <input type="text" name="ShootsAgainst" id="addShootsAgainst" class="insert-table-input">
+                            </td>
+                            <td>
+                                <input type="text" name="GoalsAgainst" id="addGoalsAgainst" class="insert-table-input">
+                            </td>
+                        </tr>
+    
+                    </tr>
+                </table>
+                <input id="submitAddShootoutButton" style="display:none;" type="submit" value="submit">
+                </form>
+                <button id="cancelAddShootoutButton" style="display:none;" onclick="cancelAddShootout()">Cancel</button>
+                <button id="addShootoutButton" type="button" class="btn btn-dark" onclick="enableAddShootout()">Add Shootouts</button>
+    
+    
+                {% else %}
+                <p>This player has not gone into any shootouts.</p>
+    
+                <table id="no-shootouts-table" style="display: none;">
+                    <tr>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            Team
+                        </th>
+
+                        <th>
+                            Wins/Loses
+                        </th>
+                        <th>
+                            Shots Against
+                        </th>
+                        <th>
+                            Goals Against
+                        </th>
+                        <th>
+                            Stint
+                        </th>
+                    </tr>
+                    <form action="./{{ player[0] }}/addshootout" method="POST">
+                    <tr id="addShootoutFormRow" style="display:none;">
+                        <td>
+                            <input type="number" name="ShootoutYear" id="addShootoutYear" class="insert-table-input">
+                        </td>
+    
+                        <td>
+                            <input type="text" name="ShootoutTeam" id="addShootoutTeam" class="insert-table-input">
+                        </td>
+
+                        <td>
+                            <input type="text" name="ShootoutWinsLose" id="addShootoutWinsLose" class="insert-table-input">
+                        </td>
+    
+                        <td>
+                            <input type="text" name="ShootsAgainst" id="addShootsAgainst" class="insert-table-input">
+                        </td>
+                        <td>
+                            <input type="text" name="GoalsAgainst" id="addGoalsAgainst" class="insert-table-input">
+                        </td>
+                        <td>
+                            Stint
+                        </td>
+                    </tr>
+                    </table>
+                    <input id="submitAddShootoutButton" style="display:none;" type="submit" value="submit">
+                    </form>
+                <button id="cancelAddShootoutButton" style="display:none;" onclick="cancelAddShootout()">Cancel</button>
+                <button id="addShootoutButton" type="button" class="btn btn-dark" onclick="enableAddShootout()">Add Shootouts</button>
+    
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        {% endif %}
+
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    
+</body>
+</html>

@@ -1,0 +1,8 @@
+Creating games.html
+Creating Python links
+Adding Select box for years
+Reading years from GoaliesSC table
+Adding some datas to init.py 
+Creating Table for Teams info
+Reading teams item from GoaliesSC
+Using delete operation for teams info in table

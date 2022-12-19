@@ -1,0 +1,17 @@
+
+#title {
+    color: black;
+    margin: 20px;
+}
+
+#title h1 {
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+#title p {
+
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 300;
+}

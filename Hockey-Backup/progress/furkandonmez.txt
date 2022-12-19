@@ -1,0 +1,5 @@
+Create addplayer.html
+added coaches table in coaches.html
+create function for sql operation in coaches table in server.py
+delete awardcoach table
+add_award_coach

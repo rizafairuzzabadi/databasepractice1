@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Coaches</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/addplayer.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+        <script>
+            function enableAddAward() {
+            if(document.getElementById("no-awards-table")) document.getElementById("no-awards-table").style.display = null;
+            document.getElementById("addAwardCoachFormRow").style.display = null;
+            document.getElementById("submitAddAwardCoachButton").style.display = null;
+            document.getElementById("addAwardCoachButton").style.display = "none";
+            document.getElementById("cancelAddAwardCoachButton").style.display = null;
+        }
+        </script>
+        <nav class="nav">
+            <a class="mt-1" href="/"><h2>The Hockey Archive</h2></a>
+            <a href="/">Home</a>
+            <a href="/players">Players</a>
+            <a href="/teams">Teams</a>
+            <a class="active" href="/coaches">Coaches</a>
+            <a href="/games">Games</a>
+            <a href="/stats">Stats</a>
+        </nav>
+    
+    </head>
+    <body>
+        <div class="top-container">
+            <h1>Coachesinformation:</h1>
+
+    <div id="dropdown-container">
+        <p>Select a coach: </p>
+        <select onchange="this.options[this.selectedIndex].value && (window.location.href = '/coach/' + this.options[this.selectedIndex].value)" style="width: 400px;" id="dropdownPlayers" placeholder="Select a Coach">
+            <option value="">Select a Coach</option>
+            {% for coach in coaches %}
+            <option value="{{ coach[0] }}">{{ coach[1] }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        {% if coach%}
+        <div id="details-container">
+            <div id="coach-info">
+                <h2>Coach Info:</h2>
+                <p>Coach Name: <span id="coach-name">{{ coach[6] }}</span></p>
+                
+            </div>
+            <div id="awards">
+                <h2>Awards:</h2>
+                {% if awards %}
+                <table>
+                    <tr>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            League
+                        </th>
+                        <th>
+                            Award
+                        </th>
+                    </tr>
+                    {% for award in awards %}
+                    <tr>
+                        <td>
+                            {{ award[1] }}
+                        </td>
+                        <td>{{ award[3] }}</td>
+                        <td>
+                            {{ award[2] }}
+                        </td>
+                        <td>
+                            <a href="./{{ award[0] }}/deleteaward_coach?coachId={{ award[0] }}">Delete</a>
+                        </td>
+                    </tr>
+                    
+                    {% endfor %}  
+                    <form action="./{{ coach[0] }}/add_award_coach" method="post">
+                        <tr id="addAwardCoachFormRow" style="display:none;">
+                            <td>
+                                <input type="number" name="award_coachYear" id="addAwardCoachYear" class="insert-table-input">
+                            </td>
+        
+                            <td>
+                                <input type="text" name="award_coachLeague" id="addAwardCoachLeague" class="insert-table-input">
+                            </td>
+        
+                            <td>
+                                <input type="text" name="award_coachName" id="addAwardCoachName" class="insert-table-input">
+                            </td>
+                        </tr>
+                        <input id="submitAddAwardCoachButton" style="display:none;" type="submit" value="submit">
+                        </form>
+                    </table>
+                    <button id="cancelAddAwardCoachButton" style="display:none;" onclick="cancelAddAward()">Cancel</button>
+                    <button id="addAwardCoachButton" style="display: block;" onclick="enableAddAward()">Add award</button>
+    
+                {% else %}
+                <p>This coach has not achieve any awards.</p>
+                <table id="no-awards-table" style="display:none;">
+                    <tr>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            League
+                        </th>
+                        <th>
+                            award
+                        </th>
+                    </tr>
+                    
+    
+                {% endif %}
+    
+            </div>
+        </div>
+        {%endif%}
+        
+    </div>
+    </body>
+</html>

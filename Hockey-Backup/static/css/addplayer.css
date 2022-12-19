@@ -1,0 +1,22 @@
+form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    max-width: 80%;
+}
+form h1 {
+    margin-bottom: 10px;
+}
+
+form > input[type="text"], input[type="number"] {
+
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+form > input[type="submit"] {
+    height: 30px;
+    width: 100px;
+    margin: 0 auto;
+}

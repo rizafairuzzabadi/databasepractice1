@@ -1,0 +1,31 @@
+//Muhammad Riza Fairuzzabadi Git Log
+--Starts from the bottom going upwards
+
+Last Database .db file commit to keep updated
+added some inessential essential simple touches (CSS, background, properties, etc.)
+Goaltending Shootouts Update add (Update implementation for Shootouts)
+Update for Goaltending (Update implementation for Goaltending Stats)
+bugfixes for shootouts (Related to INSERT and DELETE operations)
+Read, Insert Delete on Shootout, broken in WinsLoseTie part (unfinished, but later finished Read, Insert, Delete ops. Implementation)
+add deletion for goalies, slight change to the db (Delete implementation for Goalies, db CREATE updates)
+brute force fix for the name thingy, learned one thing (Coach, Master some READ implementation)
+ltl adjsment + to-fix coach thingy (Added Boostrap 5, Readjusments of the grid)
+Fixing a problem with db queries, backing up previous db (CREATE related changes)
+Update init_database.py (CREATE implementation of all tables, fixed Errors and missing columns)
+Update requirement.txt (for flask run, venv)
+Update database.db references (CREATE implementation, additions)
+Update server.py (Initial READ implementation for Goalies)
+Update .gitignore
+add notes TEXT (Slight CREATE impl. fix)
+Solve db + players.html (Fixes related to CREATE, db. file and READ)
+resolve foreign syntax (Initial fixes for Foreign key queries)
+gitignore
+Merge branch 'main' of https://github.com/itudb2241/itudb2241
+Update .flaskenv
+key database (CREATE fixes, player READ implementation)
+Create .gitignore
+ignore venv (deleted previous files)
+venv commit (unintentional commit)
+init data
+Create rizafairuzzabadi.txt
+Initial commit
